@@ -1,6 +1,5 @@
 <template>
     <v-app-bar
-      absolute
       color="white"
     >
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
