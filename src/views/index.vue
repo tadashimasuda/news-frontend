@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-container class="mt-5">
       <v-list-item row style="overflow-x:scroll">
         <v-list-item >
@@ -56,7 +55,6 @@
       <Popup :article=article @dialogUpdate="dialog=false" />
       </v-dialog>
     </v-container>
-  </v-app>
 </template>
 
 <script>

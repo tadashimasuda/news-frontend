@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
+  <v-app>
     <Header />
-    <router-view />
-  </div>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+  </v-app>
 </template>
 <script>
 import Header from "@/components/Header";
