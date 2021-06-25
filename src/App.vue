@@ -1,20 +1,15 @@
 <template>
-  <v-app> 
+  <div id="app">
     <Header />
-  </v-app>
+  </div>
 </template>
-
 <script>
-import Header from './components/Header.vue';
+import Header from "@/components/Header";
+
 export default {
-  name: 'App',
-
-  components: {
+  components:{
     Header
-  },
-
-  data: () => ({
-    //
-  }),
-};
+  }
+}
 </script>
+
