@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-img class="white--text align-end" :src= article.urlToImage>
-      <v-card-title>{{article.title}}</v-card-title>
+      <v-card-title></v-card-title>
     </v-img>
     <v-card-subtitle class="pb-0">ソース元：{{article.source.name}}</v-card-subtitle>
     <v-card-text>
