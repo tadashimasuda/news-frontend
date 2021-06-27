@@ -8,6 +8,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
+      <router-link :to="{name:'articles',query:{url:article.url}}">articles</router-link>
       <v-btn color="primary" text @click="dialogUpdate()"> 閉じる </v-btn>
     </v-card-actions>
   </v-card>
@@ -15,7 +16,7 @@
 <script>
 export default {
     name:'Popup',
-    props:["article"],
+    props:["article","index"],
     methods:{
         dialogUpdate:function(){
             this.$emit("dialogUpdate");
