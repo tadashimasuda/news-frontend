@@ -40,15 +40,14 @@
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
-            <!-- <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(item, index) in Number(10)" @click="articleData(index)"> -->
-            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(index)">
+            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article)">
                 <v-img class="white--text align-end" :src="article.urlToImage">
-                  <v-card-title>{{article.title}}</v-card-title>
+                  <v-card-title></v-card-title>
                 </v-img>
                 <v-card-subtitle class="pb-0">
-                  Number 
+                 {{article.source.name}}
                 </v-card-subtitle>
-                <v-card-text class="text--primary">
+                <v-card-text class="text--primary">{{article.title}}
                 </v-card-text>
             </v-card>
           </div>
@@ -70,15 +69,13 @@ export default {
   data () {
       return {
         dialog: false,
-        article:{
-          num:''
-        },
+        article:[],
         articles:[]
       }
   },
   methods: {
-    articleData(index){
-      this.article.num=index
+    articleData(article){
+      this.article=article
     },
     addClass: function(){
       let min = 1 ;
@@ -104,25 +101,5 @@ export default {
   align-items: center;
   width:280px;
   display: block;
-}
-
-.item1 {
-  height: 250px;
-}
-.item1 > v-img{
-  height:100px;
-}
-.item2 {
-  height: 300px;
-}
-.item2 > v-img{
-  height:130px;
-}
-.item3 {
-  height: 350px;
-}
-.item3 > v-img{
-  height:1
-  200px;
 }
 </style>
