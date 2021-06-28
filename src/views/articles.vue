@@ -18,6 +18,16 @@
                             <v-card-title class="text-body-1">
                                 {{article.text}}
                             </v-card-title>
+                            <v-card-actions>
+                                <v-btn
+                                    text
+                                    color="gray accent-4"
+                                    @click="reveal = true"
+                                    :href= link
+                                >
+                                外部ページで見る
+                            </v-btn>
+                            </v-card-actions>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -31,7 +41,8 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            article:[]
+            article:[],
+            link:''
         }
     },
     mounted(){
@@ -41,6 +52,9 @@ export default {
           .catch((e) => {
             console.log(e);
           });
+    },
+    created(){
+        this.link=this.$route.query.url
     }
 }
 </script>
