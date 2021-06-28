@@ -3,7 +3,7 @@
         <v-content>
             <v-container>
                 <v-row justify="center" align-content="center">
-                    <v-col cols="10">
+                    <v-col md="10">
                         <v-card>
                             <div ></div>
                             <v-img
