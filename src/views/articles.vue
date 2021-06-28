@@ -1,6 +1,29 @@
 <template>
-    <p>{{article.text}}</p>
-    
+    <v-app>
+        <v-content>
+            <v-container>
+                <v-row justify="center" align-content="center">
+                    <v-col cols="10">
+                        <v-card>
+                            <div ></div>
+                            <v-img
+                            max-height="350"
+                            contain
+                            :src= article.img_path
+                            class="grey darken-4"
+                            ></v-img>
+                            <v-card-title class="text-h5">
+                                {{article.title}}
+                            </v-card-title>
+                            <v-card-title class="text-body-1">
+                                {{article.text}}
+                            </v-card-title>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 <script>
 import axios from 'axios'
