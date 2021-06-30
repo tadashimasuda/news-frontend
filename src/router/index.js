@@ -19,14 +19,14 @@ const routes = [
     component: Articles
   },
   {
-    path: '/oauth/twitter/callback',
-    name: 'callback',
-    component: Callback
-  },
-  {
     path: '/oauth/twitter/redirect',
     name: 'redirect',
     component: Redirect
+  },
+  {
+    path: '/oauth/twitter/callback',
+    name: 'callback',
+    component: Callback
   },
 ]
 

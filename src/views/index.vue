@@ -88,12 +88,12 @@ export default {
   },
   mounted(){
     axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
-            this.articles= res.data
-            console.log(this.articles);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      this.articles= res.data
+      console.log(this.articles);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
   }
 }
 </script>
