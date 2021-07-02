@@ -81,9 +81,9 @@
                   class="rounded-circle justify-center my-5"
                 >
                 </v-img>
-                <v-card-item-title class="text-h5">
+                <p class="text-h5">
                   {{$store.state.user.name}}
-                </v-card-item-title>
+                </p>
               </div>
             </v-list-item>
             <v-list-item class="mt-5">
