@@ -40,18 +40,19 @@
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
-            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key= index v-for="(article, index) in articles" @click="articleData(article)">
-                <v-img class="white--text align-end" :src="article.urlToImage"></v-img>
+            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article,index)">
+                <v-img class="white--text align-end" :src="article.urlToImage">
+                  <v-card-title></v-card-title>
+                </v-img>
                 <v-card-subtitle class="pb-0">
-                  ソース元：{{article.source.name}}
+                 {{article.source.name}}
                 </v-card-subtitle>
-                <v-card-text class="text--primary">
-                  {{article.title}}
+                <v-card-text class="text--primary">{{article.title}}
                 </v-card-text>
             </v-card>
           </div>
         </template>
-      <Popup :article= article @dialogUpdate="dialog=false" />
+      <Popup :article= article :index= index @dialogUpdate="dialog=false" />
       </v-dialog>
     </v-container>
 </template>
@@ -69,28 +70,46 @@ export default {
       return {
         dialog: false,
         article:[],
-        articles:[]
+        articles:[],
+        index:''
       }
   },
   methods: {
-    articleData(article){
+    articleData(article,index){
       this.article=article
+      this.index=index
     },
     addClass: function(){
       let min = 1 ;
       let max = 3 ;
       let random = Math.floor( Math.random() * (max + 1 - min) ) + min ;
       return 'item' + random;
+    },
+    getUser(){
+      let token =localStorage.getItem('access_token')
+      axios.get('http://127.0.0.1:8000/api/user',{
+        headers:{
+          "Authorization":"Bearer " + token
+        }
+      }).then((res) => {
+        localStorage.setItem('access_yn', res.data.access_token);
+        this.$store.commit('setUser',{ user: res.data.user });
+    }).catch((e) => {
+      console.log(e);
+    });
     }
   },
   mounted(){
     axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
-            this.articles= res.data
-            console.log(this.articles);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      this.articles= res.data
+      console.log(this.articles);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  },
+  created(){
+    this.getUser()
   }
 }
 </script>
