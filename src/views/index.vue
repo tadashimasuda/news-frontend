@@ -84,6 +84,19 @@ export default {
       let max = 3 ;
       let random = Math.floor( Math.random() * (max + 1 - min) ) + min ;
       return 'item' + random;
+    },
+    getUser(){
+      let token =localStorage.getItem('access_token')
+      axios.get('http://127.0.0.1:8000/api/user',{
+        headers:{
+          "Authorization":"Bearer " + token
+        }
+      }).then((res) => {
+        localStorage.setItem('access_yn', res.data.access_token);
+        this.$store.commit('setUser',{ user: res.data.user });
+    }).catch((e) => {
+      console.log(e);
+    });
     }
   },
   mounted(){
@@ -94,6 +107,9 @@ export default {
     .catch((e) => {
       console.log(e);
     });
+  },
+  created(){
+    this.getUser()
   }
 }
 </script>

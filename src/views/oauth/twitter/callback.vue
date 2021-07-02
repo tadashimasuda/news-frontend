@@ -15,6 +15,7 @@ export default {
             //localstrageに入れる
             localStorage.setItem('access_token', res.data.access_token);
             this.$store.commit('setUser',{ user: res.data.user });
+            this.$router.push('/')
         }).catch((e) => {
             console.log(e);
         });
