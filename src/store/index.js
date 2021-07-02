@@ -10,7 +10,7 @@ export default new Vuex.Store({
     },
     mutations: {
         setUser(state, user) {
-            state.user = user;
+            state.user = user.user;
             state.userStatus = Boolean(user)
         },
         authUser(state){
