@@ -1,9 +1,9 @@
 <template>
   <v-card>
-    <v-img class="white--text align-end" :src= article.urlToImage>
+    <v-img class="white--text align-end" :src= article.img_path>
       <v-card-title></v-card-title>
     </v-img>
-    <v-card-subtitle class="pb-0">ソース元：{{article.source.name}}</v-card-subtitle>
+    <v-card-subtitle class="pb-0">ソース元：{{article.source}}</v-card-subtitle>
     <v-card-text>
       {{article.description}}
     </v-card-text>
