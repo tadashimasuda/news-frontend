@@ -106,14 +106,14 @@ export default {
     }
   },
   mounted(){
-    axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
-      this.articles= res.data
-      this.loading =true;
-      console.log(this.articles);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    // axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
+    //   this.articles= res.data
+    //   this.loading =true;
+    //   console.log(this.articles);
+    // })
+    // .catch((e) => {
+    //   console.log(e);
+    // });
   },
   created(){
     this.getUser()
