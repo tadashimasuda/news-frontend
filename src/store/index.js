@@ -13,6 +13,10 @@ export default new Vuex.Store({
             state.user = user.user;
             state.userStatus = Boolean(user)
         },
+        clearUser(state){
+            state.user = ''
+            state.userStatus = false
+        },
         authUser(state){
             return state.userStatus;
         }

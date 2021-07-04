@@ -37,15 +37,20 @@
         </v-btn>
         </v-list-item>
       </v-list-item>
-      <v-dialog v-model="dialog" width="500">
+      <div class="loading mt-12">
+        <v-row justify='center'>
+        <v-progress-circular v-if="!loading" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
+      </v-row>  
+      </div>
+      <v-dialog v-if="loading" v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
             <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article,index)">
-                <v-img class="white--text align-end" :src="article.urlToImage">
+                <v-img class="white--text align-end" :src="article.img_path">
                   <v-card-title></v-card-title>
                 </v-img>
                 <v-card-subtitle class="pb-0">
-                 {{article.source.name}}
+                 {{article.source}}
                 </v-card-subtitle>
                 <v-card-text class="text--primary">{{article.title}}
                 </v-card-text>
@@ -69,6 +74,7 @@ export default {
   data () {
       return {
         dialog: false,
+        loading:false,
         article:[],
         articles:[],
         index:''
@@ -100,13 +106,14 @@ export default {
     }
   },
   mounted(){
-    axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
-      this.articles= res.data
-      console.log(this.articles);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    // axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
+    //   this.articles= res.data
+    //   this.loading =true;
+    //   console.log(this.articles);
+    // })
+    // .catch((e) => {
+    //   console.log(e);
+    // });
   },
   created(){
     this.getUser()

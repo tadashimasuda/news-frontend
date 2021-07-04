@@ -59,6 +59,7 @@
                     depressed
                     rounded
                     text
+                    @click.prevent="logout()"
                   >
                     ログアウト
                   </v-btn>
@@ -90,7 +91,9 @@
               <v-list-item-title class="text-h6 py-3">後で見る</v-list-item-title>
             </v-list-item>
             <v-list-item class="mt-5">
-              <v-list-item-title class="text-h6 py-3">ログアウト</v-list-item-title>
+              <v-list-item-title class="text-h6 py-3" @click.prevent="logout()">
+                ログアウト
+              </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -98,11 +101,29 @@
     </header>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       drawer: false,
     };
+  },
+  methods:{
+    logout(){
+      let token =localStorage.getItem('access_token')
+        axios.get('http://127.0.0.1:8000/api/logout',{
+            headers:{
+            "Authorization":"Bearer " + token
+            }
+        }).then((res) => {
+            this.$store.commit('clearUser');
+            window.location.reload();
+            return res;
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
   }
 };
 </script>

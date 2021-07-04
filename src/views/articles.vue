@@ -47,7 +47,7 @@ export default {
     },
     methods:{
         getUser(){
-            let token =localStorage.getItem('access_yn')
+            let token =localStorage.getItem('access_token')
             axios.get('http://127.0.0.1:8000/api/user',{
                 headers:{
                 "Authorization":"Bearer " + token
