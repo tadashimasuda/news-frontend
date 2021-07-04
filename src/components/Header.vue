@@ -88,7 +88,16 @@
               </div>
             </v-list-item>
             <v-list-item class="mt-5">
-              <v-list-item-title class="text-h6 py-3">後で見る</v-list-item-title>
+              <v-dialog v-model="dialog">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-list-item-title class="text-h6 py-3" v-bind="attrs" v-on="on">
+                    後で見る
+                  </v-list-item-title>
+                </template>
+                <v-card>
+                  <v-title>stacklist</v-title>
+                </v-card>
+              </v-dialog>
             </v-list-item>
             <v-list-item class="mt-5">
               <v-list-item-title class="text-h6 py-3" @click.prevent="logout()">
@@ -107,6 +116,7 @@ export default {
   data() {
     return {
       drawer: false,
+      dialog: false,
     };
   },
   methods:{
