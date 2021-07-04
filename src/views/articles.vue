@@ -113,6 +113,9 @@
 <script>
 import axios from 'axios'
 const audio = new Audio('https://news-voice.s3.amazonaws.com/f2698dec-265a-459f-a019-65880ffbe337.mp3'); // path to file
+audio.addEventListener("ended", function () {
+    audio.currentTime = 0;
+}, false);
 
 export default {
     data(){
