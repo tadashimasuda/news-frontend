@@ -122,6 +122,7 @@ export default {
             show:true,
             currentTime:0,
             value:0,
+            parsentValue:0,
             showValue:'00:00',
             duration:0
         }
@@ -144,7 +145,7 @@ export default {
             audio.play();
             this.show = !this.show
             setInterval(() => {
-                this.value= audio.currentTime;
+                this.value= (audio.currentTime/audio.duration)*100;
                 this.showValue=this.toMs(audio.currentTime)
             }, 100)
         },
@@ -159,12 +160,16 @@ export default {
             audio.currentTime-=5
         },
         time(){
-            audio.currentTime=this.value
+            audio.currentTime=(this.value * audio.duration)/100
         },
-        toMs(endTime){
-            let m = Math.floor(endTime % 3600 / 60 | 0)
-            let s = Math.floor(endTime % 60)
+        toMs(time){
+            let m = Math.floor(time % 3600 / 60 | 0)
+            let s = Math.floor(time % 60)
             return ( '00' + m ).slice( -2 )+ ':' + ( '00' + s ).slice( -2 )
+        },
+        persentValue(){
+            console.log((audio.currentTime/audio.duration) *100);
+            return (audio.currentTime/audio.duration) *100
         }
     },
     mounted(){
