@@ -12,19 +12,31 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <router-link :to="{name:'articles',query:{url:article.url}}">articles</router-link>
-      <v-btn color="primary" text @click="dialogUpdate()"> 閉じる </v-btn>
+      <v-btn color="primary" text @click="stackArticle(article.id)">後で見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
+      <router-link :to="{name:'articles',query:{url:article.url}}" class="ml-5">詳細へ</router-link>
+      <v-btn color="primary" text @click="dialogUpdate()" class="ml-5"> 閉じる </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
     name:'Popup',
     props:["article","index"],
     methods:{
-        dialogUpdate:function(){
-            this.$emit("dialogUpdate");
-        }
+      dialogUpdate:function(){
+          this.$emit("dialogUpdate");
+      },
+      stackArticle:function(id){
+        let token =localStorage.getItem('access_token')
+        axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+        axios.post('http://127.0.0.1:8000/api/article/'+ id +'/stack').then((res) => {
+          console.log(res);
+        }).catch((e) => {
+            console.log(e);
+        });
+      }
     }
 }
 </script>

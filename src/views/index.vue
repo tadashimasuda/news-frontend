@@ -45,7 +45,7 @@
       <v-dialog v-if="loading" v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
-            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article,index)">
+            <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles.data" @click="articleData(article,index)">
                 <v-img class="white--text align-end" :src="article.img_path">
                   <v-card-title></v-card-title>
                 </v-img>
@@ -106,14 +106,13 @@ export default {
     }
   },
   mounted(){
-    // axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
-    //   this.articles= res.data
-    //   this.loading =true;
-    //   console.log(this.articles);
-    // })
-    // .catch((e) => {
-    //   console.log(e);
-    // });
+    axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
+      this.articles= res.data
+      this.loading =true;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
   },
   created(){
     this.getUser()
