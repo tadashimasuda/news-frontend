@@ -88,7 +88,32 @@
               </div>
             </v-list-item>
             <v-list-item class="mt-5">
-              <v-list-item-title class="text-h6 py-3">後で見る</v-list-item-title>
+              <v-dialog v-model="dialog">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-list-item-title @click.prevent="getStacks()" class="text-h6 py-3" v-bind="attrs" v-on="on">
+                    後で見る
+                  </v-list-item-title>
+                </template>
+                <v-card>
+                  <v-list>
+                    <v-list-item-group>
+                      <v-list-item v-for="(stack,index) in stacks" :key="index" class="mb-2">
+                        <v-list-item-content>
+                          <v-avatar
+                            class="ma-3"
+                            size="125"
+                            tile
+                          >
+                            <v-img :src= stack.article.img_path></v-img>
+                          </v-avatar>
+                          <v-list-item-title v-text="stack.article.title"></v-list-item-title>
+                          <v-icon class="mt-3" @click.prevent="deleteArticle(stack.id)">mdi-delete</v-icon>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
+                </v-card>
+              </v-dialog>
             </v-list-item>
             <v-list-item class="mt-5">
               <v-list-item-title class="text-h6 py-3" @click.prevent="logout()">
@@ -107,6 +132,8 @@ export default {
   data() {
     return {
       drawer: false,
+      dialog: false,
+      stacks:[]
     };
   },
   methods:{
@@ -120,6 +147,33 @@ export default {
             this.$store.commit('clearUser');
             window.location.reload();
             return res;
+        }).catch((e) => {
+            console.log(e);
+        });
+    },
+    getStacks(){
+        let token =localStorage.getItem('access_token')
+        axios.get('http://127.0.0.1:8000/api/article/stacks',{
+            headers:{
+            "Authorization":"Bearer " + token
+            }
+        }).then((res) => {
+          this.stacks = res.data.data
+        }).catch((e) => {
+            console.log(e);
+        });
+    },
+    deleteArticle(id){
+      let token =localStorage.getItem('access_token')
+        axios.delete('http://127.0.0.1:8000/api/article/'+id+'/stack',{
+            headers:{
+            "Authorization":"Bearer " + token
+            }
+        }).then((res) => {
+          this.stacks = this.stacks.filter((stack) => {
+            return (stack.id == id)
+          })
+          return res;
         }).catch((e) => {
             console.log(e);
         });
