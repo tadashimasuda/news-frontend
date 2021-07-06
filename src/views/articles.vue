@@ -45,6 +45,7 @@
                                     </v-card-text>
                                 </v-col>
                                 </v-row>
+                                <audio ref="audio" :src="`https://news-voice.s3.amazonaws.com/` + article.s3_file_path + '.mp3'"></audio>
                             </div>
                             <v-card-actions>
                                 <v-row class="my-3" align="center" justify="center">
@@ -112,9 +113,7 @@
 </template>
 <script>
 import axios from 'axios'
-// audio.addEventListener("ended", function () {
-//     audio.currentTime = 0;
-// }, false);
+
 
 export default {
     data(){
@@ -144,9 +143,21 @@ export default {
                 console.log(e);
             });
         },
+        getArticle(){
+            axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
+            this.article= res.data
+            this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
+            this.duration=this.toMs(this.audio.duration)
+            this.currentTime =this.toMs(this.audio.currentTime)
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        },
         audioStart(){
             this.audio.play();
             this.show = !this.show
+            this.duration = this.toMs(this.audio.duration)
             setInterval(() => {
                 this.value= (this.audio.currentTime/this.audio.duration)*100;
                 this.showValue=this.toMs(this.audio.currentTime)
@@ -172,18 +183,11 @@ export default {
         },
         persentValue(){
             return (this.audio.currentTime/this.audio.duration) *100
-        }
+        },
     },
     mounted(){
-        axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
-            this.article= res.data
-            this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
-            this.duration=this.toMs(this.audio.duration)
-            this.currentTime =this.toMs(this.audio.currentTime)
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        this.getArticle(),
+        this.audio = this.$refs.audio
     },
     created(){
         this.link=this.$route.query.url
