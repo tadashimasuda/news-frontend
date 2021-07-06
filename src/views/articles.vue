@@ -112,10 +112,9 @@
 </template>
 <script>
 import axios from 'axios'
-const audio = new Audio('https://news-voice.s3.amazonaws.com/f2698dec-265a-459f-a019-65880ffbe337.mp3'); // path to file
-audio.addEventListener("ended", function () {
-    audio.currentTime = 0;
-}, false);
+// audio.addEventListener("ended", function () {
+//     audio.currentTime = 0;
+// }, false);
 
 export default {
     data(){
@@ -127,7 +126,8 @@ export default {
             value:0,
             parsentValue:0,
             showValue:'00:00',
-            duration:0
+            duration:0,
+            audio:''
         }
     },
     methods:{
@@ -145,25 +145,25 @@ export default {
             });
         },
         audioStart(){
-            audio.play();
+            this.audio.play();
             this.show = !this.show
             setInterval(() => {
-                this.value= (audio.currentTime/audio.duration)*100;
-                this.showValue=this.toMs(audio.currentTime)
+                this.value= (this.audio.currentTime/this.audio.duration)*100;
+                this.showValue=this.toMs(this.audio.currentTime)
             }, 100)
         },
         audioStop(){
-            audio.pause();
+            this.audio.pause();
             this.show = !this.show
         },
         skip5sForward(){
-            audio.currentTime+=5
+            this.audio.currentTime+=5
         },
         skip5sBackward(){
-            audio.currentTime-=5
+            this.audio.currentTime-=5
         },
         time(){
-            audio.currentTime=(this.value * audio.duration)/100
+            this.audio.currentTime=(this.value * this.audio.duration)/100
         },
         toMs(time){
             let m = Math.floor(time % 3600 / 60 | 0)
@@ -171,15 +171,15 @@ export default {
             return ( '00' + m ).slice( -2 )+ ':' + ( '00' + s ).slice( -2 )
         },
         persentValue(){
-            console.log((audio.currentTime/audio.duration) *100);
-            return (audio.currentTime/audio.duration) *100
+            return (this.audio.currentTime/this.audio.duration) *100
         }
     },
     mounted(){
         axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
             this.article= res.data
-            this.duration=this.toMs(audio.duration)
-            this.currentTime =this.toMs(audio.currentTime)
+            this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
+            this.duration=this.toMs(this.audio.duration)
+            this.currentTime =this.toMs(this.audio.currentTime)
           })
           .catch((e) => {
             console.log(e);
