@@ -12,7 +12,8 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="stackArticle(article.id)">後で見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
+      <v-btn color="primary" v-if="isLogin" text @click="stackArticle(article.id)">あとで見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
+      <v-btn text v-if="!isLogin" @click="alertLogin">あとで見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
       <router-link :to="{name:'articles',query:{url:article.url}}" class="ml-5">詳細へ</router-link>
       <v-btn color="primary" text @click="dialogUpdate()" class="ml-5"> 閉じる </v-btn>
     </v-card-actions>
@@ -36,6 +37,17 @@ export default {
         }).catch((e) => {
             console.log(e);
         });
+      },
+      alertLogin:function(){
+        alert('ログイン後にご利用いただけます。')
+      }
+    },
+    computed:{
+      isLogin(){
+        return this.$store.getters['authenticated']
+      },
+      user(){
+        return this.$store.getters['user']
       }
     }
 }
