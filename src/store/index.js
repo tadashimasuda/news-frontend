@@ -21,6 +21,14 @@ export default new Vuex.Store({
             return state.userStatus;
         }
     },
+    getters: {
+        authenticated(state) {
+            return state.userStatus;
+        },
+        user(state) {
+            return state.user;
+        }
+    },
     actions: {
     },
 });
