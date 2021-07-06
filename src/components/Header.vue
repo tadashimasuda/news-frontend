@@ -6,10 +6,6 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-
         <template v-if="!isLogin">
           <v-btn depressed color="white" href="/oauth/twitter/redirect">ログイン</v-btn>
         </template>
