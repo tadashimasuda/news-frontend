@@ -1,42 +1,5 @@
 <template>
     <v-container class="mt-5">
-      <v-list-item row style="overflow-x:scroll">
-        <v-list-item >
-          <v-btn>
-          <span>tag</span>
-        </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-        </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-          </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-          </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-        </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-        </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn>
-          <span>tag</span>
-        </v-btn>
-        </v-list-item>
-      </v-list-item>
       <div class="loading mt-12">
         <v-row justify='center'>
         <v-progress-circular v-if="!loading" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
