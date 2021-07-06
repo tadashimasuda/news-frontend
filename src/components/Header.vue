@@ -88,14 +88,18 @@
                 </p>
               </div>
             </v-list-item>
+            
             <v-list-item class="mt-5">
               <v-dialog v-model="dialog">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-list-item-title @click.prevent="getStacks()" class="text-h6 py-3" v-bind="attrs" v-on="on">
+                <template  v-slot:activator="{ on, attrs }">
+                  <v-list-item-title v-if="isLogin" @click.prevent="getStacks()" class="text-h6 py-3" v-bind="attrs" v-on="on">
+                    後で見る
+                  </v-list-item-title>
+                  <v-list-item-title v-if="!isLogin" class="text-h6 py-3 grey lighten-4" v-bind="attrs" v-on="on">
                     後で見る
                   </v-list-item-title>
                 </template>
-                <v-card>
+                <v-card v-if="isLogin">
                   <v-list>
                     <v-list-item-group>
                       <v-list-item v-for="(stack,index) in stacks" :key="index" class="mb-2">
@@ -114,10 +118,16 @@
                     </v-list-item-group>
                   </v-list>
                 </v-card>
+                <v-card v-if="!isLogin">
+                  ログイン後にご利用いただけます。
+                </v-card>
               </v-dialog>
             </v-list-item>
             <v-list-item class="mt-5">
-              <v-list-item-title class="text-h6 py-3" @click.prevent="logout()">
+              <v-list-item-title v-if="!isLogin" class="text-h6 py-3" @click.prevent="logout()">
+                Googleでログイン
+              </v-list-item-title>
+              <v-list-item-title v-if="isLogin" class="text-h6 py-3">
                 ログアウト
               </v-list-item-title>
             </v-list-item>
