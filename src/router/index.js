@@ -4,7 +4,7 @@ import Index from '../views/index.vue'
 import Articles from '../views/articles.vue'
 import Callback from '../views/oauth/twitter/callback.vue'
 import Redirect from '../views/oauth/twitter/redirect.vue'
-
+import NotFoundComponent from '../components/NotfoundComponent'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +28,11 @@ const routes = [
     name: 'callback',
     component: Callback
   },
+  {
+    path: '*', 
+    name: 'notFound',
+    component: NotFoundComponent 
+  }
 ]
 
 const router = new VueRouter({
