@@ -59,17 +59,25 @@
                                         mdi-skip-backward
                                     </v-icon>
                                 </v-btn>
-                                <v-btn class="mx-2"
-                                    fab
-                                    outlined
-                                    color="dark"
-                                    large
-                                    v-show="show" @click.prevent="audioStart()"
-                                >
-                                    <v-icon dark>
-                                        mdi-play
-                                    </v-icon>
-                                </v-btn>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                    <v-btn class="mx-2"
+                                        fab
+                                        outlined
+                                        color="dark"
+                                        large
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        v-show="show" @click.prevent="audioStart()"
+                                    >
+                                        <v-icon dark>
+                                            mdi-play
+                                        </v-icon>
+                                    </v-btn>
+                                    </template>
+                                    <span>外部ストレージの関係により、１０秒程度お待ち頂く場合があります。</span>
+                                    <span>リロードで改善する場合があります。</span>
+                                </v-tooltip>
                                 <v-btn class="mx-2"
                                     fab
                                     outlined

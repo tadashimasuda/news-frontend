@@ -10,7 +10,9 @@
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
             <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article,index)">
                 <v-img class="white--text align-end" :src="article.img_path">
-                  <v-card-title></v-card-title>
+                  <v-btn fab small class="float-right mr-2 mb-1">
+                    <v-icon>mdi-play</v-icon>
+                  </v-btn>
                 </v-img>
                 <v-card-subtitle class="pb-0">
                  {{article.source}}
