@@ -73,7 +73,6 @@ export default {
     });
     },
     loadMore(){
-      console.log(this.next_page);
       if (this.next_page) {
         let link = this.next_page_url
          axios.get(link).then((res) => {
