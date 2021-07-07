@@ -172,13 +172,13 @@ export default {
     },
     deleteArticle(id){
       let token =localStorage.getItem('access_token')
-        axios.delete('http://127.0.0.1:8000/api/article/'+id+'/stack',{
+        axios.delete('http://127.0.0.1:8000/api/stacks/'+id,{
             headers:{
             "Authorization":"Bearer " + token
             }
         }).then((res) => {
           this.stacks = this.stacks.filter((stack) => {
-            return (stack.id == id)
+            return (stack.id != id)
           })
           return res;
         }).catch((e) => {
