@@ -67,7 +67,9 @@ export default {
         localStorage.setItem('access_yn', res.data.access_token);
         this.$store.commit('setUser',{ user: res.data.user });
     }).catch((e) => {
-      console.log(e);
+      if (e.response.status!==401) {
+        console.log(e);
+      }
     });
     },
     loadMore(){
