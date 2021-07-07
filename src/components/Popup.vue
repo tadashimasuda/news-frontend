@@ -1,7 +1,11 @@
 <template>
   <v-card>
     <v-img class="white--text align-end" :src= article.img_path>
-      <v-card-title></v-card-title>
+      <v-btn fab class="float-right mr-2 mb-1">
+        <router-link :to="{name:'articles',query:{url:article.url}}" style="text-decoration:none">
+        <v-icon color="black">mdi-play</v-icon>
+        </router-link>
+      </v-btn>
     </v-img>
     <v-card-subtitle class="pb-0">ソース元：{{article.source}}</v-card-subtitle>
     <v-card-text>

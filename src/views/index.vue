@@ -10,7 +10,9 @@
           <div v-masonry transition-duration="0.3s" item-selector=".item" v-bind="attrs" v-on="on"  >
             <v-card v-masonry-tile class="item mx-1 mt-2" :class="addClass(index)" :key=index v-for="(article, index) in articles" @click="articleData(article,index)">
                 <v-img class="white--text align-end" :src="article.img_path">
-                  <v-card-title></v-card-title>
+                  <v-btn fab small class="float-right mr-2 mb-1">
+                    <v-icon>mdi-play</v-icon>
+                  </v-btn>
                 </v-img>
                 <v-card-subtitle class="pb-0">
                  {{article.source}}
@@ -67,11 +69,12 @@ export default {
         localStorage.setItem('access_yn', res.data.access_token);
         this.$store.commit('setUser',{ user: res.data.user });
     }).catch((e) => {
-      console.log(e);
+      if (e.response.status!==401) {
+        console.log(e);
+      }
     });
     },
     loadMore(){
-      console.log(this.next_page);
       if (this.next_page) {
         let link = this.next_page_url
          axios.get(link).then((res) => {
