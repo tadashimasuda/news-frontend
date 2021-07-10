@@ -64,8 +64,6 @@
                                         outlined
                                         color="dark"
                                         large
-                                        v-bind="attrs"
-                                        v-on="on"
                                         v-show="show" @click.prevent="audioStart()"
                                     >
                                         <v-icon dark>
@@ -122,7 +120,11 @@
                 </v-row>
             </v-container>
             <v-container v-else>
-                <p class="text-center">データが取得できませんでした。</p>
+                <v-row class="mt-16" justify="center" align-content="center">
+                    <v-progress-circular v-if="!loadingArticle" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
+                </v-row>
+                <p v-if="!loadingText" class="text-center mt-12">現在読み込み中です</p>
+                <p v-else class="text-center mt-12">データの取得に失敗しました。</p>
             </v-container>
         </v-content>
     </v-app>
@@ -144,9 +146,17 @@ export default {
             duration:0,
             audio:'',
             loading:false,
+            loadingArticle:false,
+            loadingText:false
         }
     },
     methods:{
+        checkArticle(){
+            if (!this.loadingArticle) {
+                this.loadingText=true
+                this.loadingArticle=true
+            }
+        },
         getUser(){
             let token =localStorage.getItem('access_token')
             axios.get('http://127.0.0.1:8000/api/user',{
@@ -157,19 +167,19 @@ export default {
                 localStorage.setItem('access_token', res.data.access_token);
                 this.$store.commit('setUser',{ user: res.data.user });
             }).catch((e) => {
-                if (e.response.status!==401) {
+                if (e.response.status !== 401) {
                     console.log(e);
                 }
             });
         },
-        getArticle(){
-            axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
-            this.article= res.data
-            this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
-            this.duration=this.toMs(this.audio.duration)
-            this.currentTime =this.toMs(this.audio.currentTime)
-          })
-          .catch((e) => {
+        async getArticle(){
+            await axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
+                this.article= res.data
+                this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
+                this.duration=this.toMs(this.audio.duration)
+                this.currentTime =this.toMs(this.audio.currentTime)
+                this.loadingArticle=true
+          }).catch((e) => {
             console.log(e);
           });
         },
@@ -211,6 +221,7 @@ export default {
         },
     },
     mounted(){
+        setTimeout(this.checkArticle,30000)
         this.getArticle(),
         this.audio = this.$refs.audio
     },
