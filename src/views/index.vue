@@ -25,7 +25,9 @@
         </template>
       <Popup :article= article :index= index @dialogUpdate="dialog=false" />
       </v-dialog>
-      <v-btn v-if="next_page" @click="loadMore()">load more...</v-btn>
+      <v-row justify='center' class="mt-5">
+        <v-btn color="white" justify='center' v-if="next_page&loading"  @click="loadMore()">もっと見る</v-btn>
+      </v-row>
     </v-container>
 </template>
 
@@ -144,15 +146,16 @@ export default {
 .flow > * + * {
   margin-top: var(--flow-space, var(--spacer));
 }
+@media screen and (max-width: 784px){
+  .grid {
+  --columns: 3;
+  }
+}
 
 @media screen and (max-width: 480px){
   .grid {
   --columns: 1;
+  }
 }
-}
-@media screen and (max-width: 784px){
-  .grid {
-  --columns: 3;
-}
-}
+
 </style>
