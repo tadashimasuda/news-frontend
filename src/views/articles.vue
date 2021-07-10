@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-content>
-            <v-container>
+            <v-container v-if="article.text">
                 <v-row justify="center" align-content="center">
                     <v-col md="10">
                         <v-card>
@@ -47,20 +47,18 @@
                                 </v-row>
                                 <audio ref="audio" :src="`https://news-voice.s3.amazonaws.com/` + article.s3_file_path + '.mp3'"></audio>
                             </div>
-                            <v-card-actions>
-                                <v-row class="my-3" align="center" justify="center">
-                                <v-btn class="mx-2"
-                                    fab
-                                    outlined
-                                    color="dark"
-                                    @click.prevent="skip5sBackward()"
-                                >
-                                    <v-icon dark>
-                                        mdi-skip-backward
-                                    </v-icon>
-                                </v-btn>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
+                            <v-card-actions v-if="article.s3_file_path">
+                                <v-row class="my-3" align="center" justify="center" >
+                                    <v-btn class="mx-2"
+                                        fab
+                                        outlined
+                                        color="dark"
+                                        @click.prevent="skip5sBackward()"
+                                    >
+                                        <v-icon dark>
+                                            mdi-skip-backward
+                                        </v-icon>
+                                    </v-btn>
                                     <v-btn class="mx-2"
                                         fab
                                         outlined
@@ -74,33 +72,40 @@
                                             mdi-play
                                         </v-icon>
                                     </v-btn>
-                                    </template>
-                                    <span>外部ストレージの関係により、１０秒程度お待ち頂く場合があります。</span>
-                                    <span>リロードで改善する場合があります。</span>
-                                </v-tooltip>
-                                <v-btn class="mx-2"
-                                    fab
-                                    outlined
-                                    color="dark"
-                                    large
-                                    v-show="!show" @click.prevent="audioStop()"
-                                >
-                                    <v-icon dark>
-                                        mdi-stop
-                                    </v-icon>
-                                </v-btn>
-                                <v-btn class="mx-2"
-                                    fab
-                                    outlined
-                                    color="dark"
-                                    @click.prevent="skip5sForward()"
-                                >
-                                    <v-icon dark>
-                                        mdi-skip-forward
-                                    </v-icon>
-                                </v-btn> 
+                                    <v-btn class="mx-2"
+                                        fab
+                                        outlined
+                                        color="dark"
+                                        large
+                                        v-show="!show" @click.prevent="audioStop()"
+                                    >
+                                        <v-icon dark>
+                                            mdi-stop
+                                        </v-icon>
+                                    </v-btn>
+                                    <v-btn class="mx-2"
+                                        fab
+                                        outlined
+                                        color="dark"
+                                        @click.prevent="skip5sForward()"
+                                    >
+                                        <v-icon dark>
+                                            mdi-skip-forward
+                                        </v-icon>
+                                    </v-btn> 
                                 </v-row>
-                                </v-card-actions>
+                            </v-card-actions>
+                            <v-card-actions v-else>
+                                <v-row class="mb-3" align="center" justify="center" >
+                                    <v-btn v-if="!loading" fab @click="reloadBtnClick()">
+                                        <v-icon dark>
+                                            mdi-reload
+                                        </v-icon>
+                                    </v-btn>
+                                    <v-progress-circular v-if="loading" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
+                                </v-row>
+                            </v-card-actions>
+                            <p class="text-center" v-if="!article.s3_file_path">音声を取得できませんでした。音声を再取得する。</p>
                             <v-card-title v-text="article.text" class="text-body-1"></v-card-title>
                             <v-card-actions class="liner">
                                 <v-btn
@@ -115,6 +120,9 @@
                         </v-card>
                     </v-col>
                 </v-row>
+            </v-container>
+            <v-container v-else>
+                <p class="text-center">データが取得できませんでした。</p>
             </v-container>
         </v-content>
     </v-app>
@@ -134,7 +142,8 @@ export default {
             parsentValue:0,
             showValue:'00:00',
             duration:0,
-            audio:''
+            audio:'',
+            loading:false,
         }
     },
     methods:{
@@ -193,6 +202,12 @@ export default {
         },
         persentValue(){
             return (this.audio.currentTime/this.audio.duration) *100
+        },
+        reloadBtnClick(){
+            this.loading = !this.loading
+            setTimeout(function () {
+                window.location.reload()
+            },3000)
         },
     },
     mounted(){
