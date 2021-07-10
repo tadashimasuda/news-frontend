@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/index.vue'
 import Articles from '../views/articles.vue'
-import Callback from '../views/oauth/twitter/callback.vue'
-import Redirect from '../views/oauth/twitter/redirect.vue'
+import Callback from '../views/oauth/google/callback.vue'
+import Redirect from '../views/oauth/google/redirect.vue'
 import NotFoundComponent from '../components/NotfoundComponent'
 Vue.use(VueRouter)
 
@@ -19,12 +19,12 @@ const routes = [
     component: Articles
   },
   {
-    path: '/oauth/twitter/redirect',
+    path: '/oauth/google/redirect',
     name: 'redirect',
     component: Redirect
   },
   {
-    path: '/oauth/twitter/callback',
+    path: '/oauth/google/callback',
     name: 'callback',
     component: Callback
   },
