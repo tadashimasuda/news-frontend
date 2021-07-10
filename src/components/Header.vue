@@ -7,7 +7,7 @@
         <v-spacer></v-spacer>
 
         <template v-if="!isLogin">
-          <v-btn depressed color="white" href="/oauth/twitter/redirect">ログイン</v-btn>
+          <v-btn depressed color="white" href="/oauth/google/redirect">ログイン</v-btn>
         </template>
         <template v-else>
           <v-menu
