@@ -14,7 +14,7 @@ const routes = [
     component: Index
   },
   {
-    path: '/articles',
+    path: '/articles/:id',
     name: 'articles',
     component: Articles
   },

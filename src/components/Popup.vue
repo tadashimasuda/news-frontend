@@ -2,7 +2,7 @@
   <v-card>
     <v-img class="white--text align-end" :src= article.img_path>
       <v-btn fab class="float-right mr-2 mb-1">
-        <router-link :to="{name:'articles',query:{url:article.url}}" style="text-decoration:none">
+        <router-link :to="'/articles/' + article.id" style="text-decoration:none">
         <v-icon color="black">mdi-play</v-icon>
         </router-link>
       </v-btn>
@@ -18,7 +18,7 @@
       <v-spacer></v-spacer>
       <v-btn color="primary" v-if="isLogin" text @click="stackArticle(article.id)">あとで見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
       <v-btn text v-if="!isLogin" @click="alertLogin">あとで見る<v-icon>mdi-plus-box-multiple</v-icon></v-btn>
-      <router-link :to="{name:'articles',query:{url:article.url}}" class="ml-5">詳細へ</router-link>
+      <router-link :to="'/articles/' + article.id" class="ml-5">詳細へ</router-link>
       <v-btn color="primary" text @click="dialogUpdate()" class="ml-5"> 閉じる </v-btn>
     </v-card-actions>
   </v-card>
@@ -36,7 +36,7 @@ export default {
       stackArticle:function(id){
         let token =localStorage.getItem('access_token')
         axios.defaults.headers.common['Authorization'] = "Bearer " + token;
-        axios.post('http://127.0.0.1:8000/api/article/'+ id +'/stack').then((res) => {
+        axios.post('http://127.0.0.1:8000/api/articles/'+ id +'/stack').then((res) => {
           console.log(res);
         }).catch((e) => {
             console.log(e);
