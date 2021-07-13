@@ -173,7 +173,7 @@ export default {
             });
         },
         async getArticle(){
-            await axios.get('http://127.0.0.1:8000/api/article?url='+this.$route.query.url).then((res) => {
+            await axios.get('http://127.0.0.1:8000/api/articles/'+this.$route.params.id).then((res) => {
                 this.article= res.data
                 this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
                 this.duration=this.toMs(this.audio.duration)
