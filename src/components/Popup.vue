@@ -36,7 +36,7 @@ export default {
       stackArticle:function(id){
         let token =localStorage.getItem('access_token')
         axios.defaults.headers.common['Authorization'] = "Bearer " + token;
-        axios.post('http://127.0.0.1:8000/api/article/'+ id +'/stack').then((res) => {
+        axios.post('http://127.0.0.1:8000/api/articles/'+ id +'/stack').then((res) => {
           console.log(res);
         }).catch((e) => {
             console.log(e);
