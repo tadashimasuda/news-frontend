@@ -116,6 +116,40 @@
                             </v-btn>
                             </v-card-actions>
                         </v-card>
+                        <v-card class="mt-5">
+                            <v-row justify="space-around">
+                                <v-col cols="left">
+                                    <h3 class="h3 ml-3">コメント</h3>
+                                </v-col>
+                                <v-col cols="auto">
+                                    <v-dialog
+                                    v-model="commentDialog"
+                                    width="500"
+                                    >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn v-bind="attrs" v-on="on" class="">コメントする</v-btn>
+                                    </template>
+                                    <v-card>
+                                        adav
+                                    </v-card>
+                                    </v-dialog>
+                                </v-col>
+                            </v-row>
+                            
+                            <v-list>
+                                <v-list-item two-line v-for="comment in comments" :key="comment.id" >
+                                    <v-list-item-content two-line>
+                                        <v-list-item>
+                                            <v-avatar size="30" color="gray" class="mr-2"> 
+                                                <v-img class="rounded-circle justify-center my-5" :src= comment.user.img_path ></v-img>
+                                            </v-avatar>
+                                            <v-list-item-title>{{comment.user.name}}</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-subtitle class="ml-14" v-text="comment.body"></v-list-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
                     </v-col>
                 </v-row>
             </v-container>
@@ -137,6 +171,7 @@ export default {
     data(){
         return{
             article:[],
+            comments:'',
             link:'',
             show:true,
             currentTime:0,
@@ -147,7 +182,8 @@ export default {
             audio:'',
             loading:false,
             loadingArticle:false,
-            loadingText:false
+            loadingText:false,
+            commentDialog:false
         }
     },
     methods:{
@@ -179,9 +215,16 @@ export default {
                 this.duration=this.toMs(this.audio.duration)
                 this.currentTime =this.toMs(this.audio.currentTime)
                 this.loadingArticle=true
-          }).catch((e) => {
-            console.log(e);
-          });
+            }).catch((e) => {
+                console.log(e);
+            });
+        },
+        async getComment(){
+            await axios.get('http://127.0.0.1:8000/api/articles/'+this.article.id+'/comments').then((res) => {
+                this.comments= res.data.data
+            }).catch((e) => {
+                console.log(e);
+            });
         },
         audioStart(){
             this.audio.play();
@@ -223,6 +266,7 @@ export default {
     mounted(){
         setTimeout(this.checkArticle,30000)
         this.getArticle(),
+        this.getComment(),
         this.audio = this.$refs.audio
     },
     created(){
