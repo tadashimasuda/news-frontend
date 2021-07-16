@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-content>
+        <v-main>
             <v-container v-if="article.text">
                 <v-row justify="center" align-content="center">
                     <v-col md="10">
@@ -132,7 +132,7 @@
                                             コメントする
                                         </v-btn>
                                     </template>
-                                     <CommentPost />
+                                     <CommentPost :articleId = article.id @dialogUpdate="commentDialog=false" />
                                     </v-dialog>
                                 </v-col>
                             </v-row>
@@ -145,7 +145,7 @@
                                             </v-avatar>
                                             <v-list-item-title>{{comment.user.name}}</v-list-item-title>
                                         </v-list-item>
-                                        <v-list-subtitle class="ml-14" v-text="comment.body"></v-list-subtitle>
+                                        <p class="ml-14" v-text="comment.body"></p>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list>
@@ -160,7 +160,7 @@
                 <p v-if="!loadingText" class="text-center mt-12">現在読み込み中です</p>
                 <p v-else class="text-center mt-12">データの取得に失敗しました。</p>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 <script>
@@ -274,7 +274,7 @@ export default {
     },
     created(){
         this.link=this.$route.query.url
-        this.getUser()
+        // this.getUser()
     }
 }
 </script>
