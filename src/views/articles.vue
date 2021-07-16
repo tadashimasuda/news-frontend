@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-content>
+        <v-main>
             <v-container v-if="article.text">
                 <v-row justify="center" align-content="center">
                     <v-col md="10">
@@ -116,6 +116,40 @@
                             </v-btn>
                             </v-card-actions>
                         </v-card>
+                        <v-card class="mt-5">
+                            <v-row justify="space-around">
+                                <v-col cols="left">
+                                    <h3 class="h3 ml-3">コメント</h3>
+                                </v-col>
+                                <v-col cols="auto">
+                                    <v-dialog
+                                    v-model="commentDialog"
+                                    width="500"
+                                    >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn v-bind="attrs" v-on="on" class="mt-1 mr-2">
+                                            <v-icon small class="mr-1">mdi-pencil</v-icon>
+                                            コメントする
+                                        </v-btn>
+                                    </template>
+                                     <CommentPost :articleId = article.id @dialogUpdate="commentDialog=false" />
+                                    </v-dialog>
+                                </v-col>
+                            </v-row>
+                            <v-list>
+                                <v-list-item two-line v-for="comment in comments" :key="comment.id" >
+                                    <v-list-item-content two-line>
+                                        <v-list-item>
+                                            <v-avatar size="30" color="gray" class="mr-2"> 
+                                                <v-img class="rounded-circle justify-center my-5" :src= comment.user.img_path ></v-img>
+                                            </v-avatar>
+                                            <v-list-item-title>{{comment.user.name}}</v-list-item-title>
+                                        </v-list-item>
+                                        <p class="ml-14" v-text="comment.body"></p>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
                     </v-col>
                 </v-row>
             </v-container>
@@ -126,17 +160,18 @@
                 <p v-if="!loadingText" class="text-center mt-12">現在読み込み中です</p>
                 <p v-else class="text-center mt-12">データの取得に失敗しました。</p>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 <script>
 import axios from 'axios'
-
+import CommentPost from '@/components/CommentPost.vue'
 
 export default {
     data(){
         return{
             article:[],
+            comments:'',
             link:'',
             show:true,
             currentTime:0,
@@ -147,8 +182,12 @@ export default {
             audio:'',
             loading:false,
             loadingArticle:false,
-            loadingText:false
+            loadingText:false,
+            commentDialog:false
         }
+    },
+    components:{
+        CommentPost 
     },
     methods:{
         checkArticle(){
@@ -179,9 +218,16 @@ export default {
                 this.duration=this.toMs(this.audio.duration)
                 this.currentTime =this.toMs(this.audio.currentTime)
                 this.loadingArticle=true
-          }).catch((e) => {
-            console.log(e);
-          });
+            }).catch((e) => {
+                console.log(e);
+            });
+        },
+        async getComment(){
+            await axios.get('http://127.0.0.1:8000/api/articles/'+this.article.id+'/comments').then((res) => {
+                this.comments= res.data.data
+            }).catch((e) => {
+                console.log(e);
+            });
         },
         audioStart(){
             this.audio.play();
@@ -223,11 +269,12 @@ export default {
     mounted(){
         setTimeout(this.checkArticle,30000)
         this.getArticle(),
+        this.getComment(),
         this.audio = this.$refs.audio
     },
     created(){
         this.link=this.$route.query.url
-        this.getUser()
+        // this.getUser()
     }
 }
 </script>
