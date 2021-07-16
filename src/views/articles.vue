@@ -127,7 +127,10 @@
                                     width="500"
                                     >
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn v-bind="attrs" v-on="on" class="">コメントする</v-btn>
+                                        <v-btn v-bind="attrs" v-on="on" class="mt-1 mr-2">
+                                            <v-icon small class="mr-1">mdi-pencil</v-icon>
+                                            コメントする
+                                        </v-btn>
                                     </template>
                                     <v-card>
                                         adav
