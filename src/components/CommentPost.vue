@@ -1,0 +1,26 @@
+<template>
+    <v-card>
+        <v-toolbar
+            flat
+            color="grey"
+            dark
+        >
+        <v-toolbar-title>コメント投稿</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+            <v-textarea
+                filled
+                label="投稿内容"
+                class="mt-4"
+            ></v-textarea>
+        </v-card-text>
+        <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="success"
+        >
+            投稿
+        </v-btn>
+        </v-card-actions>
+    </v-card>
+</template>

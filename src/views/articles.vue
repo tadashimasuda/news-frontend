@@ -132,13 +132,10 @@
                                             コメントする
                                         </v-btn>
                                     </template>
-                                    <v-card>
-                                        adav
-                                    </v-card>
+                                     <CommentPost />
                                     </v-dialog>
                                 </v-col>
                             </v-row>
-                            
                             <v-list>
                                 <v-list-item two-line v-for="comment in comments" :key="comment.id" >
                                     <v-list-item-content two-line>
@@ -168,7 +165,7 @@
 </template>
 <script>
 import axios from 'axios'
-
+import CommentPost from '@/components/CommentPost.vue'
 
 export default {
     data(){
@@ -188,6 +185,9 @@ export default {
             loadingText:false,
             commentDialog:false
         }
+    },
+    components:{
+        CommentPost 
     },
     methods:{
         checkArticle(){
