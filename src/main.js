@@ -7,6 +7,7 @@ import VueAxios from 'vue-axios'
 import {VueMasonryPlugin} from 'vue-masonry'
 import store from  './store'
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 Vue.config.productionTip = false
 
 Vue.use(VueMasonryPlugin,VueAxios, axios)

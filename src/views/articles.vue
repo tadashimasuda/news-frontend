@@ -198,7 +198,7 @@ export default {
         },
         getUser(){
             let token =localStorage.getItem('access_token')
-            axios.get('http://127.0.0.1:8000/api/user',{
+            axios.get('/user',{
                 headers:{
                 "Authorization":"Bearer " + token
                 }
@@ -212,7 +212,7 @@ export default {
             });
         },
         async getArticle(){
-            await axios.get('http://127.0.0.1:8000/api/articles/'+this.$route.params.id).then((res) => {
+            await axios.get('/articles/'+this.$route.params.id).then((res) => {
                 this.article= res.data
                 this.audio = new Audio('https://news-voice.s3.amazonaws.com/'+res.data.s3_file_path+'.mp3')
                 this.duration=this.toMs(this.audio.duration)
@@ -223,7 +223,7 @@ export default {
             });
         },
         async getComment(){
-            await axios.get('http://127.0.0.1:8000/api/articles/'+this.article.id+'/comments').then((res) => {
+            await axios.get('/articles/'+this.article.id+'/comments').then((res) => {
                 this.comments= res.data.data
             }).catch((e) => {
                 console.log(e);

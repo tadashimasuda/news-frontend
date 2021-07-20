@@ -6,7 +6,7 @@ import axios from 'axios'
 
 export default {
     mounted(){
-        axios.get('http://localhost:8000/api/oauth/google/redirect').then((res) => {
+        axios.get('/oauth/google/redirect').then((res) => {
             console.log(res.data.redirect_url);
             //遷移させる
             window.location.href = res.data.redirect_url

@@ -146,7 +146,7 @@ export default {
   methods:{
     logout(){
       let token =localStorage.getItem('access_token')
-        axios.get('http://127.0.0.1:8000/api/logout',{
+        axios.get('/logout',{
             headers:{
             "Authorization":"Bearer " + token
             }
@@ -160,7 +160,7 @@ export default {
     },
     getStacks(){
         let token =localStorage.getItem('access_token')
-        axios.get('http://127.0.0.1:8000/api/stacks',{
+        axios.get('/stacks',{
             headers:{
             "Authorization":"Bearer " + token
             }
@@ -172,7 +172,7 @@ export default {
     },
     deleteArticle(id){
       let token =localStorage.getItem('access_token')
-        axios.delete('http://127.0.0.1:8000/api/articles/stacks/'+id,{
+        axios.delete('/articles/stacks/'+id,{
             headers:{
             "Authorization":"Bearer " + token
             }

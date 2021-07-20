@@ -58,7 +58,7 @@ export default {
     },
     getUser(){
       let token =localStorage.getItem('access_token')
-      axios.get('http://127.0.0.1:8000/api/user',{
+      axios.get('/user',{
         headers:{
           "Authorization":"Bearer " + token
         }
@@ -87,7 +87,7 @@ export default {
     },
   },
   mounted(){
-    axios.get('http://127.0.0.1:8000/api/articles').then((res) => {
+    axios.get('/articles').then((res) => {
       this.articles = res.data.data
       this.next_page_url = res.data.next_page_url
       this.loading =true;
