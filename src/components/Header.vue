@@ -2,7 +2,9 @@
     <header>
       <v-app-bar app white>
          <v-app-bar-nav-icon app @click="drawer = !drawer"></v-app-bar-nav-icon>
-       <v-toolbar-title>News</v-toolbar-title>
+       <v-toolbar-title class="font-weight-bold h3">
+         News hear
+       </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
