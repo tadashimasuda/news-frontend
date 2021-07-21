@@ -11,7 +11,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('http://localhost:8000/api/oauth/google/callback',{ params: this.$route.query }).then((res) => {
+        axios.get('/oauth/google/callback',{ params: this.$route.query }).then((res) => {
             //localstrageに入れる
             localStorage.setItem('access_token', res.data.access_token);
             this.$store.commit('setUser',{ user: res.data.user });

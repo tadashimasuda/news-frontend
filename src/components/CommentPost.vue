@@ -51,7 +51,7 @@ export default {
                 this.postLoading = true
                 let token =localStorage.getItem('access_token')
                 axios.defaults.headers.common['Authorization'] = "Bearer " + token;
-                axios.post('http://127.0.0.1:8000/api/articles/'+ this.articleId +'/comments',{body:this.inputComment}).then(() => {
+                axios.post('/articles/'+ this.articleId +'/comments',{body:this.inputComment}).then(() => {
                     this.postSuccess = true
                     setTimeout(
                         this.$emit("dialogUpdate",false)
@@ -63,7 +63,7 @@ export default {
         },
         // getUser(){
         //     let token =localStorage.getItem('access_token')
-        //     axios.get('http://127.0.0.1:8000/api/user',{
+        //     axios.get('/user',{
         //         headers:{
         //         "Authorization":"Bearer " + token
         //         }

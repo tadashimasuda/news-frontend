@@ -2,7 +2,9 @@
     <header>
       <v-app-bar app white>
          <v-app-bar-nav-icon app @click="drawer = !drawer"></v-app-bar-nav-icon>
-       <v-toolbar-title>News</v-toolbar-title>
+       <v-toolbar-title class="font-weight-bold h3">
+         News hear
+       </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -146,7 +148,7 @@ export default {
   methods:{
     logout(){
       let token =localStorage.getItem('access_token')
-        axios.get('http://127.0.0.1:8000/api/logout',{
+        axios.get('/logout',{
             headers:{
             "Authorization":"Bearer " + token
             }
@@ -160,7 +162,7 @@ export default {
     },
     getStacks(){
         let token =localStorage.getItem('access_token')
-        axios.get('http://127.0.0.1:8000/api/stacks',{
+        axios.get('/stacks',{
             headers:{
             "Authorization":"Bearer " + token
             }
@@ -172,7 +174,7 @@ export default {
     },
     deleteArticle(id){
       let token =localStorage.getItem('access_token')
-        axios.delete('http://127.0.0.1:8000/api/articles/stacks/'+id,{
+        axios.delete('/articles/stacks/'+id,{
             headers:{
             "Authorization":"Bearer " + token
             }
