@@ -1,7 +1,6 @@
 <template>
     <v-app>
-        <v-main>
-            <v-container v-if="article.text">
+        <v-main v-if="article.text">
                 <v-row justify="center" align-content="center">
                     <v-col md="10">
                         <v-card>
@@ -163,15 +162,15 @@
                         </v-card>
                     </v-col>
                 </v-row>
-            </v-container>
-            <v-container v-else>
+            </v-main>
+
+            <v-main v-else>
                 <v-row class="mt-16" justify="center" align-content="center">
                     <v-progress-circular v-if="!loadingArticle" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
                 </v-row>
                 <p v-if="!loadingText" class="text-center mt-12">現在読み込み中です</p>
                 <p v-else class="text-center mt-12">データの取得に失敗しました。</p>
-            </v-container>
-        </v-main>
+            </v-main>
     </v-app>
 </template>
 <script>
