@@ -26,7 +26,7 @@
       <Popup :article= article :index= index @dialogUpdate="dialog=false" />
       </v-dialog>
       <v-row justify='center' class="mt-5">
-        <v-btn color="white" justify='center' v-if="next_page&loading"  @click="loadMore()">もっと見る</v-btn>
+        <v-btn color="white" justify='center' v-if="max_pagenate >= page && loading"  @click="loadMore()">もっと見る</v-btn>
       </v-row>
     </v-container>
 </template>
@@ -48,7 +48,9 @@ export default {
         articles:[],
         index:'',
         next_page_url:'',
-        next_page:true
+        next_page:true,
+        max_pagenate:'',
+        page:1
       }
   },
   methods: {
@@ -72,12 +74,25 @@ export default {
     });
     },
     loadMore(){
-      if (this.next_page) {
-        let link = this.next_page_url
-         axios.get(link).then((res) => {
+      // if (this.next_page) {
+      //   let link = this.next_page_url
+      //    axios.get(link).then((res) => {
+      //     this.articles.push(...res.data.data)
+      //     this.next_page_url = res.data.next_page_url
+      //     this.next_page = Boolean(this.next_page_url)
+      //   }).catch((e) => {
+      //     console.log(e);
+      //   });
+      // }else{
+      //   console.log('no');
+      // }
+      
+      if (this.max_pagenate>=this.page) {
+         axios.get('/articles/',{params:{page:this.page}}).then((res) => {
           this.articles.push(...res.data.data)
-          this.next_page_url = res.data.next_page_url
-          this.next_page = Boolean(this.next_page_url)
+          // this.next_page_url = res.data.next_page_url
+          // this.next_page = Boolean(this.next_page_url)
+          this.page++
         }).catch((e) => {
           console.log(e);
         });
@@ -91,6 +106,7 @@ export default {
       this.articles = res.data.data
       this.next_page_url = res.data.next_page_url
       this.loading =true;
+      this.max_pagenate = Math.ceil(res.data.total / 10)
     }).catch((e) => {
       console.log(e);
     });
