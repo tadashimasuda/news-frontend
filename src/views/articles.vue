@@ -1,7 +1,6 @@
 <template>
     <v-app>
-        <v-main>
-            <v-container v-if="article.text">
+        <v-main v-if="article.text">
                 <v-row justify="center" align-content="center">
                     <v-col md="10">
                         <v-card>
@@ -145,22 +144,33 @@
                                             </v-avatar>
                                             <v-list-item-title>{{comment.user.name}}</v-list-item-title>
                                         </v-list-item>
-                                        <p class="ml-14" v-text="comment.body"></p>
+                                        <p class="ml-14">
+                                            <v-row>
+                                                <v-col md='8'>{{comment.body}}</v-col>
+                                                <v-col md='2'>
+                                                    <template v-if="user.id == comment.user.id" class="text-end">
+                                                        <v-btn text @click="deleteComments(comment.id)">
+                                                            <v-icon>mdi-delete</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                </v-col>
+                                            </v-row>
+                                        </p>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list>
                         </v-card>
                     </v-col>
                 </v-row>
-            </v-container>
-            <v-container v-else>
+            </v-main>
+
+            <v-main v-else>
                 <v-row class="mt-16" justify="center" align-content="center">
                     <v-progress-circular v-if="!loadingArticle" :size="50" color="grey lighten-2" indeterminate></v-progress-circular>
                 </v-row>
                 <p v-if="!loadingText" class="text-center mt-12">現在読み込み中です</p>
                 <p v-else class="text-center mt-12">データの取得に失敗しました。</p>
-            </v-container>
-        </v-main>
+            </v-main>
     </v-app>
 </template>
 <script>
@@ -223,11 +233,24 @@ export default {
             });
         },
         async getComment(){
-            await axios.get('/articles/'+this.article.id+'/comments').then((res) => {
+            await axios.get('/articles/'+this.$route.params.id+'/comments').then((res) => {
                 this.comments= res.data.data
             }).catch((e) => {
                 console.log(e);
             });
+        },
+        async deleteComments(id){
+            let result = confirm('本当に削除してよろしいですか？');
+ 
+            if(result) {
+                let token = localStorage.getItem('access_token')
+                axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+                await axios.delete('/articles/'+this.$route.params.id+'/comments/'+id).then(() => {
+                    this.getComment()
+                }).catch((e) => {
+                    console.log(e);
+                });
+            } 
         },
         audioStart(){
             this.audio.play();
@@ -274,7 +297,22 @@ export default {
     },
     created(){
         this.link=this.$route.query.url
-        // this.getUser()
+        if (!this.isLogin) {
+            this.getUser()
+        }
+    },
+    watch:{
+        commentDialog:function () {
+            this.getComment()
+        }
+    },
+    computed:{
+        isLogin(){
+            return this.$store.getters['authenticated']
+        },
+        user(){
+            return this.$store.getters['user']
+        }
     }
 }
 </script>

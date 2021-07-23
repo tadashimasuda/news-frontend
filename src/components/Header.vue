@@ -3,7 +3,9 @@
       <v-app-bar app white>
          <v-app-bar-nav-icon app @click="drawer = !drawer"></v-app-bar-nav-icon>
        <v-toolbar-title class="font-weight-bold h3">
-         News hear
+        <router-link to="/" style="text-decoration:none; color:black;">
+          News hear
+        </router-link>
        </v-toolbar-title>
 
         <v-spacer></v-spacer>
