@@ -274,7 +274,22 @@ export default {
     },
     created(){
         this.link=this.$route.query.url
-        // this.getUser()
+        // if (!this.isLogin) {
+        //     this.getUser()
+        // }
+    },
+    watch:{
+        commentDialog:function () {
+            this.getComment()
+        }
+    },
+    computed:{
+        isLogin(){
+            return this.$store.getters['authenticated']
+        },
+        user(){
+            return this.$store.getters['user']
+        }
     }
 }
 </script>
