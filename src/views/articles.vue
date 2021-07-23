@@ -145,7 +145,18 @@
                                             </v-avatar>
                                             <v-list-item-title>{{comment.user.name}}</v-list-item-title>
                                         </v-list-item>
-                                        <p class="ml-14" v-text="comment.body"></p>
+                                        <p class="ml-14">
+                                            <v-row>
+                                                <v-col md='8'>{{comment.body}}</v-col>
+                                                <v-col md='2'>
+                                                    <template v-if="user.id == comment.user.id" class="text-end">
+                                                        <v-btn text @click="deleteComments(comment.id)">
+                                                            <v-icon>mdi-delete</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                </v-col>
+                                            </v-row>
+                                        </p>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-list>
@@ -229,6 +240,19 @@ export default {
                 console.log(e);
             });
         },
+        async deleteComments(id){
+            let result = confirm('本当に削除してよろしいですか？');
+ 
+            if(result) {
+                let token = localStorage.getItem('access_token')
+                axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+                await axios.delete('/articles/'+this.$route.params.id+'/comments/'+id).then(() => {
+                    this.getComment()
+                }).catch((e) => {
+                    console.log(e);
+                });
+            } 
+        },
         audioStart(){
             this.audio.play();
             this.show = !this.show
@@ -274,9 +298,9 @@ export default {
     },
     created(){
         this.link=this.$route.query.url
-        // if (!this.isLogin) {
-        //     this.getUser()
-        // }
+        if (!this.isLogin) {
+            this.getUser()
+        }
     },
     watch:{
         commentDialog:function () {
