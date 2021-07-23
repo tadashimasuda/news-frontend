@@ -223,7 +223,7 @@ export default {
             });
         },
         async getComment(){
-            await axios.get('/articles/'+this.article.id+'/comments').then((res) => {
+            await axios.get('/articles/'+this.$route.params.id+'/comments').then((res) => {
                 this.comments= res.data.data
             }).catch((e) => {
                 console.log(e);
