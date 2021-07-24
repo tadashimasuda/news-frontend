@@ -87,8 +87,8 @@ export default {
       //   console.log('no');
       // }
       
-      if (this.max_pagenate>=this.page) {
-         axios.get('/articles/',{params:{page:this.page}}).then((res) => {
+      if (this.max_pagenate >= this.page) {
+         axios.get('/articles',{params:{page:this.page}}).then((res) => {
           this.articles.push(...res.data.data)
           // this.next_page_url = res.data.next_page_url
           // this.next_page = Boolean(this.next_page_url)
