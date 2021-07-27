@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios'
 
 Vue.use(Vuex);
 
@@ -30,5 +31,18 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        async getUser({commit}){
+            await axios.get('/user',{
+                headers:{
+                    "Authorization":"Bearer " + localStorage.getItem('access_token')
+                }
+            }).then((res) => {
+                commit('setUser',{ user: res.data.user });
+            }).catch((e) => {
+                if (e.response.status != 401) {
+                    console.log(e);
+                }
+            });
+        }
     },
 });
