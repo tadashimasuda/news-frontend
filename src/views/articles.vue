@@ -206,17 +206,15 @@ export default {
                 this.loadingArticle=true
             }
         },
-        getUser(){
-            let token =localStorage.getItem('access_token')
-            axios.get('/user',{
+        async getUser(){
+            await axios.get('/user',{
                 headers:{
-                "Authorization":"Bearer " + token
+                    "Authorization":"Bearer " + localStorage.getItem('access_token')
                 }
             }).then((res) => {
-                localStorage.setItem('access_token', res.data.access_token);
                 this.$store.commit('setUser',{ user: res.data.user });
             }).catch((e) => {
-                if (e.response.status !== 401) {
+                if (e.response.status != 401) {
                     console.log(e);
                 }
             });
