@@ -58,40 +58,10 @@ export default {
       this.article=article
       this.index=index
     },
-    getUser(){
-      let token =localStorage.getItem('access_token')
-      axios.get('/user',{
-        headers:{
-          "Authorization":"Bearer " + token
-        }
-      }).then((res) => {
-        localStorage.setItem('access_yn', res.data.access_token);
-        this.$store.commit('setUser',{ user: res.data.user });
-    }).catch((e) => {
-      if (e.response.status!==401) {
-        console.log(e);
-      }
-    });
-    },
     loadMore(){
-      // if (this.next_page) {
-      //   let link = this.next_page_url
-      //    axios.get(link).then((res) => {
-      //     this.articles.push(...res.data.data)
-      //     this.next_page_url = res.data.next_page_url
-      //     this.next_page = Boolean(this.next_page_url)
-      //   }).catch((e) => {
-      //     console.log(e);
-      //   });
-      // }else{
-      //   console.log('no');
-      // }
-      
       if (this.max_pagenate>=this.page) {
          axios.get('/articles/',{params:{page:this.page}}).then((res) => {
           this.articles.push(...res.data.data)
-          // this.next_page_url = res.data.next_page_url
-          // this.next_page = Boolean(this.next_page_url)
           this.page++
         }).catch((e) => {
           console.log(e);
@@ -100,19 +70,28 @@ export default {
         console.log('no');
       }
     },
+    getArticles(){
+      axios.get('/articles').then((res) => {
+        this.articles = res.data.data
+        this.next_page_url = res.data.next_page_url
+        this.loading =true;
+        this.max_pagenate = Math.ceil(res.data.total / 10)
+      }).catch((e) => {
+        console.log(e);
+      });
+    }
   },
   mounted(){
-    axios.get('/articles').then((res) => {
-      this.articles = res.data.data
-      this.next_page_url = res.data.next_page_url
-      this.loading =true;
-      this.max_pagenate = Math.ceil(res.data.total / 10)
-    }).catch((e) => {
-      console.log(e);
-    });
+    this.getArticles()
+    this.$store.dispatch('getUser')
   },
-  created(){
-    this.getUser()
+  computed:{
+    isLogin(){
+        return this.$store.getters['authenticated']
+    },
+    user(){
+        return this.$store.getters['user']
+    }
   }
 }
 </script>

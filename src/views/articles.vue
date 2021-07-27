@@ -206,19 +206,6 @@ export default {
                 this.loadingArticle=true
             }
         },
-        async getUser(){
-            await axios.get('/user',{
-                headers:{
-                    "Authorization":"Bearer " + localStorage.getItem('access_token')
-                }
-            }).then((res) => {
-                this.$store.commit('setUser',{ user: res.data.user });
-            }).catch((e) => {
-                if (e.response.status != 401) {
-                    console.log(e);
-                }
-            });
-        },
         async getArticle(){
             await axios.get('/articles/'+this.$route.params.id).then((res) => {
                 this.article= res.data
@@ -296,7 +283,7 @@ export default {
     created(){
         this.link=this.$route.query.url
         if (!this.isLogin) {
-            this.getUser()
+            this.$store.dispatch('getUser')
         }
     },
     watch:{
